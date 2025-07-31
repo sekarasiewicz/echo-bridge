@@ -1,0 +1,84 @@
+{
+    # Global options
+    admin off
+    log {
+        output stdout
+        format console
+    }
+}
+
+:80 {
+    # Security headers
+    header {
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "no-referrer-when-downgrade"
+    }
+
+    # API proxy
+    handle /api/* {
+        reverse_proxy backend:8080
+    }
+
+    # Health check
+    handle /health {
+        respond "healthy" 200
+    }
+
+    # Serve static files with caching
+    handle /*.js {
+        root * /usr/share/caddy
+        file_server
+        header Cache-Control "public, max-age=31536000, immutable"
+    }
+
+    handle /*.css {
+        root * /usr/share/caddy
+        file_server
+        header Cache-Control "public, max-age=31536000, immutable"
+    }
+
+    handle /*.png {
+        root * /usr/share/caddy
+        file_server
+        header Cache-Control "public, max-age=31536000, immutable"
+    }
+
+    handle /*.jpg {
+        root * /usr/share/caddy
+        file_server
+        header Cache-Control "public, max-age=31536000, immutable"
+    }
+
+    handle /*.jpeg {
+        root * /usr/share/caddy
+        file_server
+        header Cache-Control "public, max-age=31536000, immutable"
+    }
+
+    handle /*.gif {
+        root * /usr/share/caddy
+        file_server
+        header Cache-Control "public, max-age=31536000, immutable"
+    }
+
+    handle /*.ico {
+        root * /usr/share/caddy
+        file_server
+        header Cache-Control "public, max-age=31536000, immutable"
+    }
+
+    handle /*.svg {
+        root * /usr/share/caddy
+        file_server
+        header Cache-Control "public, max-age=31536000, immutable"
+    }
+
+    # Serve the SPA
+    handle /* {
+        root * /usr/share/caddy
+        try_files {path} /index.html
+        file_server
+    }
+} 

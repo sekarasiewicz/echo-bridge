@@ -32,7 +32,7 @@ prod: ## Start the application in production mode
 	@echo "$(BLUE)Starting Echo Bridge in production mode...$(NC)"
 	$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) up --build -d
 	@echo "$(GREEN)Application started!$(NC)"
-	@echo "$(YELLOW)Frontend: http://localhost:3000$(NC)"
+	@echo "$(YELLOW)Frontend: http://localhost$(NC)"
 	@echo "$(YELLOW)Backend:  http://localhost:8080$(NC)"
 
 test: ## Run all tests
