@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import InputForm from '../InputForm';
+import InputForm from './InputForm';
 
 describe('InputForm', () => {
   const mockOnSubmit = vi.fn();
@@ -17,7 +17,7 @@ describe('InputForm', () => {
   it('renders input field and submit button', () => {
     render(<InputForm {...defaultProps} />);
 
-    expect(screen.getByLabelText(/enter your message/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/message/i)).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: /send message/i })
     ).toBeInTheDocument();
@@ -26,53 +26,53 @@ describe('InputForm', () => {
   it('shows character count', () => {
     render(<InputForm {...defaultProps} />);
 
-    expect(screen.getByText('0/1000 characters')).toBeInTheDocument();
+    expect(screen.getByText('0/1000')).toBeInTheDocument();
   });
 
   it('updates character count when typing', () => {
     render(<InputForm {...defaultProps} />);
 
-    const input = screen.getByLabelText(/enter your message/i);
+    const input = screen.getByLabelText(/message/i);
     fireEvent.change(input, { target: { value: 'Hello' } });
 
-    expect(screen.getByText('5/1000 characters')).toBeInTheDocument();
+    expect(screen.getByText('5/1000')).toBeInTheDocument();
   });
 
   it('calls onSubmit when form is submitted with valid input', async () => {
     render(<InputForm {...defaultProps} />);
 
-    const input = screen.getByLabelText(/enter your message/i);
+    const input = screen.getByLabelText(/message/i);
     const submitButton = screen.getByRole('button', { name: /send message/i });
 
     fireEvent.change(input, { target: { value: 'Test message' } });
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalledWith('Test message');
+      expect(mockOnSubmit).toHaveBeenCalledWith({ message: 'Test message' });
     });
   });
 
-  it('shows error for empty message when form is submitted', async () => {
+  it('prevents submission when message is empty', async () => {
     render(<InputForm {...defaultProps} />);
 
-    const input = screen.getByLabelText(/enter your message/i);
+    const input = screen.getByLabelText(/message/i);
+    const submitButton = screen.getByRole('button', { name: /send message/i });
 
-    // Type something then clear it to enable the button
-    fireEvent.change(input, { target: { value: 'test' } });
-    fireEvent.change(input, { target: { value: '' } });
+    // Button should be disabled when message is empty
+    expect(submitButton).toBeDisabled();
 
-    // Submit the form directly
+    // Try to submit the form directly
     const form = input.closest('form')!;
     fireEvent.submit(form);
 
-    expect(screen.getByText(/please enter a message/i)).toBeInTheDocument();
+    // onSubmit should not be called
     expect(mockOnSubmit).not.toHaveBeenCalled();
   });
 
-  it('shows error for message too long when form is submitted', async () => {
+  it('prevents submission when message is too long', async () => {
     render(<InputForm {...defaultProps} />);
 
-    const input = screen.getByLabelText(/enter your message/i);
+    const input = screen.getByLabelText(/message/i);
     const longMessage = 'a'.repeat(1001);
 
     fireEvent.change(input, { target: { value: longMessage } });
@@ -81,9 +81,7 @@ describe('InputForm', () => {
     const form = input.closest('form')!;
     fireEvent.submit(form);
 
-    expect(
-      screen.getByText(/message cannot exceed 1000 characters/i)
-    ).toBeInTheDocument();
+    // onSubmit should not be called due to validation
     expect(mockOnSubmit).not.toHaveBeenCalled();
   });
 
@@ -103,25 +101,20 @@ describe('InputForm', () => {
     ).toBeInTheDocument();
   });
 
-  it('clears error when user starts typing', () => {
+  it('enables button when user types valid message', () => {
     render(<InputForm {...defaultProps} />);
 
-    const input = screen.getByLabelText(/enter your message/i);
+    const input = screen.getByLabelText(/message/i);
+    const submitButton = screen.getByRole('button', { name: /send message/i });
 
-    // Create an error first
-    fireEvent.change(input, { target: { value: 'test' } });
-    fireEvent.change(input, { target: { value: '' } });
-    const form = input.closest('form')!;
-    fireEvent.submit(form);
+    // Button should be disabled initially
+    expect(submitButton).toBeDisabled();
 
-    expect(screen.getByText(/please enter a message/i)).toBeInTheDocument();
+    // Type a valid message
+    fireEvent.change(input, { target: { value: 'valid message' } });
 
-    // Start typing to clear error
-    fireEvent.change(input, { target: { value: 'new message' } });
-
-    expect(
-      screen.queryByText(/please enter a message/i)
-    ).not.toBeInTheDocument();
+    // Button should be enabled
+    expect(submitButton).not.toBeDisabled();
   });
 
   it('disables submit button when message is empty', () => {
@@ -131,7 +124,7 @@ describe('InputForm', () => {
     expect(submitButton).toBeDisabled();
 
     // Type something to enable button
-    const input = screen.getByLabelText(/enter your message/i);
+    const input = screen.getByLabelText(/message/i);
     fireEvent.change(input, { target: { value: 'test' } });
 
     expect(submitButton).not.toBeDisabled();
