@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import InputForm from './components/InputForm';
 import ResponseDisplay from './components/ResponseDisplay';
 import { echoService } from './services/api';

@@ -1,12 +1,12 @@
-import React, { useState, useId } from 'react';
+import { useState, useId } from 'react';
 import './InputForm.css';
 
-interface InputFormProps {
+type InputFormProps = {
   onSubmit: (message: string) => Promise<void>;
   isLoading: boolean;
-}
+};
 
-const InputForm: React.FC<InputFormProps> = ({ onSubmit, isLoading }) => {
+const InputForm = ({ onSubmit, isLoading }: InputFormProps) => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const messageId = useId();

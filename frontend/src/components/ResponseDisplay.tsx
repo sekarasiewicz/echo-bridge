@@ -1,18 +1,17 @@
-import React from 'react';
 import type { EchoResponse, ApiError } from '../types/api';
 import './ResponseDisplay.css';
 
-interface ResponseDisplayProps {
+type ResponseDisplayProps = {
   response: EchoResponse | null;
   error: ApiError | null;
   isLoading: boolean;
-}
+};
 
-const ResponseDisplay: React.FC<ResponseDisplayProps> = ({
+const ResponseDisplay = ({
   response,
   error,
   isLoading,
-}) => {
+}: ResponseDisplayProps) => {
   if (isLoading) {
     return (
       <div className="response-display loading">

@@ -1,17 +1,17 @@
 // API Types for Echo Bridge Application
 
-export interface EchoRequest {
+export type EchoRequest = {
   message: string;
-}
+};
 
-export interface EchoResponse {
+export type EchoResponse = {
   echo: string;
   timestamp: string;
-}
+};
 
-export interface ApiError {
+export type ApiError = {
   error: string;
   message: string;
   status: number;
   timestamp: string;
-}
+};
