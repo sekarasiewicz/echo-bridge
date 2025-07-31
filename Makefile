@@ -1,7 +1,7 @@
 # Echo Bridge Makefile
 # Simple commands for development, production, and testing
 
-.PHONY: help dev prod test clean
+.PHONY: help dev prod test clean stop
 
 # Default target
 .DEFAULT_GOAL := help
@@ -40,6 +40,12 @@ test: ## Run all tests
 	cd backend && mvn test
 	@echo "$(BLUE)Running frontend tests...$(NC)"
 	cd frontend && npm test -- --run || echo "$(YELLOW)No frontend tests configured$(NC)"
+
+stop: ## Stop all running containers
+	@echo "$(BLUE)Stopping all containers...$(NC)"
+	$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) down
+	$(DOCKER_COMPOSE) -f $(COMPOSE_DEV_FILE) down
+	@echo "$(GREEN)All containers stopped!$(NC)"
 
 clean: ## Stop and clean up all containers
 	@echo "$(BLUE)Cleaning up containers...$(NC)"
