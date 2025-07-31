@@ -50,7 +50,9 @@ const SuccessDisplay = ({ response }: { response: EchoResponse }) => (
     </CardHeader>
     <CardContent className='space-y-4'>
       <div className='rounded-lg bg-white p-4 border'>
-        <p className='text-lg font-medium'>{response.echo}</p>
+        <p className='text-lg font-medium whitespace-pre-wrap'>
+          {response.echo}
+        </p>
       </div>
       <p className='text-xs text-muted-foreground'>
         Received at: {new Date(response.timestamp).toLocaleString()}
