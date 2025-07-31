@@ -326,7 +326,9 @@ docker compose logs -f frontend
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is created for **recruitment purposes only**. It is not intended for commercial use or distribution.
+
+**Note**: This is a demonstration project showcasing technical skills and development practices. Please do not use this code in production environments without proper review and modifications.
 
 ## 🆘 Support
 
