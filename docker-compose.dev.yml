@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: echo-bridge-backend-dev
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SERVER_PORT=8080
+      - SPRING_DEVTOOLS_RESTART_ENABLED=true
+    networks:
+      - echo-bridge-network
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/target:/app/target
+      - backend-dev-logs:/app/logs
+    command: ["mvn", "spring-boot:run"]
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: echo-bridge-frontend-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:8080
+      - NODE_ENV=development
+    networks:
+      - echo-bridge-network
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/package.json:/app/package.json
+      - ./frontend/vite.config.ts:/app/vite.config.ts
+      - frontend-node-modules:/app/node_modules
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+    restart: unless-stopped
+
+networks:
+  echo-bridge-network:
+    driver: bridge
+    name: echo-bridge-network-dev
+
+volumes:
+  backend-dev-logs:
+    driver: local
+  frontend-node-modules:
+    driver: local 
