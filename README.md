@@ -68,7 +68,28 @@ echo-bridge/
 
 ## 🚀 Quick Start
 
-### Option 1: Docker Compose (Recommended)
+### Option 1: Makefile (Recommended)
+
+The easiest way to manage the application is using the provided Makefile:
+
+```bash
+# Show all available commands
+make help
+
+# Start the application in production mode
+make run
+
+# Start the application in development mode (with hot reload)
+make dev
+
+# Stop the application
+make stop
+
+# View logs
+make logs
+```
+
+### Option 2: Docker Compose (Manual)
 
 1. **Clone the repository**
    ```bash
@@ -79,10 +100,10 @@ echo-bridge/
 2. **Start the application**
    ```bash
    # Production mode
-   docker-compose up --build
+   docker compose up --build
    
    # Development mode (with hot reload)
-   docker-compose -f docker-compose.dev.yml up --build
+   docker compose -f docker-compose.dev.yml up --build
    ```
 
 3. **Access the application**
@@ -170,50 +191,93 @@ curl -X POST http://localhost:8080/api/echo \
   -d '{"message": "test"}'
 ```
 
-## 🐳 Docker Commands
+## 🛠️ Makefile Commands
+
+The Makefile provides convenient shortcuts for common operations:
+
+### Application Management
+```bash
+make run          # Start in production mode
+make dev          # Start in development mode
+make stop         # Stop all services
+make restart      # Restart all services
+make logs         # View all logs
+make logs-backend # View backend logs only
+make logs-frontend # View frontend logs only
+```
+
+### Development
+```bash
+make install      # Install all dependencies
+make test         # Run all tests
+make lint         # Run all linting
+make format       # Format all code
+make type-check   # TypeScript type checking
+```
+
+### Docker Management
+```bash
+make build        # Build all images
+make build-dev    # Build development images
+make clean        # Clean everything
+make prune        # Remove unused Docker resources
+make status       # Show service status
+```
+
+### Utilities
+```bash
+make api-test     # Test API endpoints
+make monitor      # Monitor resources
+make debug        # Show system information
+make reset        # Complete reset (clean, rebuild, restart)
+```
+
+## 🐳 Docker Commands (Manual)
+
+If you prefer to use Docker commands directly:
 
 ### Build Images
 ```bash
 # Build all services
-docker-compose build
+docker compose build
 
 # Build specific service
-docker-compose build backend
-docker-compose build frontend
+docker compose build backend
+docker compose build frontend
 ```
 
 ### Run Services
 ```bash
 # Start all services
-docker-compose up
+docker compose up
 
 # Start in background
-docker-compose up -d
+docker compose up -d
 
 # Start specific service
-docker-compose up backend
+docker compose up backend
 ```
 
 ### View Logs
 ```bash
 # All services
-docker-compose logs
+docker compose logs
 
 # Specific service
-docker-compose logs backend
-docker-compose logs frontend
+docker compose logs backend
+docker compose logs frontend
 
 # Follow logs
-docker-compose logs -f
+docker compose logs -f
 ```
 
 ### Stop Services
 ```bash
 # Stop all services
-docker-compose down
+docker compose down
 
 # Stop and remove volumes
-docker-compose down -v
+docker compose down -v
 ```
 
 ## 🔍 Monitoring
