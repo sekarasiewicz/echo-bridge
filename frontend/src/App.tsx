@@ -36,13 +36,13 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className='App'>
+      <header className='App-header'>
         <h1>Echo Bridge</h1>
         <p>Send a message and see it echoed back from the server</p>
       </header>
 
-      <main className="App-main">
+      <main className='App-main'>
         <InputForm onSubmit={handleSubmit} isLoading={isLoading} />
         <ResponseDisplay
           response={response}
@@ -51,7 +51,7 @@ function App() {
         />
       </main>
 
-      <footer className="App-footer">
+      <footer className='App-footer'>
         <p>Built with React, TypeScript, and Vite</p>
       </footer>
     </div>

@@ -1,4 +1,4 @@
-import type { EchoResponse, ApiError } from '../types/api';
+import type { EchoResponse, ApiError } from '@/types/api';
 import './ResponseDisplay.css';
 
 type ResponseDisplayProps = {
@@ -14,9 +14,9 @@ const ResponseDisplay = ({
 }: ResponseDisplayProps) => {
   if (isLoading) {
     return (
-      <div className="response-display loading">
-        <div className="loading-container">
-          <div className="spinner"></div>
+      <div className='response-display loading'>
+        <div className='loading-container'>
+          <div className='spinner'></div>
           <p>Processing your message...</p>
         </div>
       </div>
@@ -25,15 +25,15 @@ const ResponseDisplay = ({
 
   if (error) {
     return (
-      <div className="response-display error">
-        <div className="error-container">
+      <div className='response-display error'>
+        <div className='error-container'>
           <h3>Error</h3>
-          <p className="error-title">{error.error}</p>
-          <p className="error-message">{error.message}</p>
+          <p className='error-title'>{error.error}</p>
+          <p className='error-message'>{error.message}</p>
           {error.status > 0 && (
-            <p className="error-status">Status: {error.status}</p>
+            <p className='error-status'>Status: {error.status}</p>
           )}
-          <p className="error-timestamp">
+          <p className='error-timestamp'>
             {new Date(error.timestamp).toLocaleString()}
           </p>
         </div>
@@ -43,12 +43,12 @@ const ResponseDisplay = ({
 
   if (response) {
     return (
-      <div className="response-display success">
-        <div className="response-container">
+      <div className='response-display success'>
+        <div className='response-container'>
           <h3>Response</h3>
-          <div className="response-content">
-            <p className="response-text">{response.echo}</p>
-            <p className="response-timestamp">
+          <div className='response-content'>
+            <p className='response-text'>{response.echo}</p>
+            <p className='response-timestamp'>
               Received at: {new Date(response.timestamp).toLocaleString()}
             </p>
           </div>
@@ -58,8 +58,8 @@ const ResponseDisplay = ({
   }
 
   return (
-    <div className="response-display empty">
-      <div className="empty-container">
+    <div className='response-display empty'>
+      <div className='empty-container'>
         <p>Send a message to see the response here</p>
       </div>
     </div>

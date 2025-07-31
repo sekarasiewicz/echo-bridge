@@ -43,35 +43,35 @@ const InputForm = ({ onSubmit, isLoading }: InputFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="input-form">
-      <div className="form-group">
-        <label htmlFor={messageId} className="form-label">
+    <form onSubmit={handleSubmit} className='input-form'>
+      <div className='form-group'>
+        <label htmlFor={messageId} className='form-label'>
           Enter your message:
         </label>
         <textarea
           id={messageId}
           value={message}
           onChange={handleInputChange}
-          placeholder="Type your message here..."
+          placeholder='Type your message here...'
           className={`form-input ${error ? 'error' : ''}`}
           rows={4}
           maxLength={1000}
           disabled={isLoading}
         />
-        <div className="input-footer">
-          <span className="char-count">{message.length}/1000 characters</span>
-          {error && <span className="error-message">{error}</span>}
+        <div className='input-footer'>
+          <span className='char-count'>{message.length}/1000 characters</span>
+          {error && <span className='error-message'>{error}</span>}
         </div>
       </div>
 
       <button
-        type="submit"
+        type='submit'
         className={`submit-button ${isLoading ? 'loading' : ''}`}
         disabled={isLoading || !message.trim()}
       >
         {isLoading ? (
           <>
-            <span className="spinner"></span>
+            <span className='spinner'></span>
             Sending...
           </>
         ) : (
