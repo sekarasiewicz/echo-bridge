@@ -13,11 +13,13 @@ const apiClient = axios.create({
 
 // Request interceptor for logging
 apiClient.interceptors.request.use(
-  (config) => {
-    console.log(`Making ${config.method?.toUpperCase()} request to ${config.url}`);
+  config => {
+    console.log(
+      `Making ${config.method?.toUpperCase()} request to ${config.url}`
+    );
     return config;
   },
-  (error) => {
+  error => {
     console.error('Request error:', error);
     return Promise.reject(error);
   }
@@ -25,8 +27,10 @@ apiClient.interceptors.request.use(
 
 // Response interceptor for error handling
 apiClient.interceptors.response.use(
-  (response) => {
-    console.log(`Received ${response.status} response from ${response.config.url}`);
+  response => {
+    console.log(
+      `Received ${response.status} response from ${response.config.url}`
+    );
     return response;
   },
   (error: AxiosError) => {
@@ -47,7 +51,8 @@ export const echoService = {
           error: error.response?.data?.error || 'Network Error',
           message: error.response?.data?.message || error.message,
           status: error.response?.status || 0,
-          timestamp: error.response?.data?.timestamp || new Date().toISOString(),
+          timestamp:
+            error.response?.data?.timestamp || new Date().toISOString(),
         };
         throw apiError;
       }
@@ -68,4 +73,4 @@ export const echoService = {
   },
 };
 
-export default apiClient; 
+export default apiClient;

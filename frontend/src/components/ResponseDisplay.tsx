@@ -8,10 +8,10 @@ interface ResponseDisplayProps {
   isLoading: boolean;
 }
 
-const ResponseDisplay: React.FC<ResponseDisplayProps> = ({ 
-  response, 
-  error, 
-  isLoading 
+const ResponseDisplay: React.FC<ResponseDisplayProps> = ({
+  response,
+  error,
+  isLoading,
 }) => {
   if (isLoading) {
     return (
@@ -67,4 +67,4 @@ const ResponseDisplay: React.FC<ResponseDisplayProps> = ({
   );
 };
 
-export default ResponseDisplay; 
+export default ResponseDisplay;

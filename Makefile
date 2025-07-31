@@ -97,7 +97,7 @@ restart: ## Restart all services
 
 install-backend: ## Install backend dependencies
 	@echo "$(BLUE)Installing backend dependencies...$(NC)"
-	cd $(BACKEND_DIR) && ./mvnw clean install -DskipTests
+	cd $(BACKEND_DIR) && mvn clean install -DskipTests
 
 install-frontend: ## Install frontend dependencies
 	@echo "$(BLUE)Installing frontend dependencies...$(NC)"
@@ -107,7 +107,7 @@ install: install-backend install-frontend ## Install all dependencies
 
 run-backend: ## Run backend locally
 	@echo "$(BLUE)Starting backend locally...$(NC)"
-	cd $(BACKEND_DIR) && ./mvnw spring-boot:run
+	cd $(BACKEND_DIR) && mvn spring-boot:run
 
 run-frontend: ## Run frontend locally
 	@echo "$(BLUE)Starting frontend locally...$(NC)"
@@ -121,11 +121,11 @@ test: test-backend test-frontend ## Run all tests
 
 test-backend: ## Run backend tests
 	@echo "$(BLUE)Running backend tests...$(NC)"
-	cd $(BACKEND_DIR) && ./mvnw test
+	cd $(BACKEND_DIR) && mvn test
 
 test-frontend: ## Run frontend tests
 	@echo "$(BLUE)Running frontend tests...$(NC)"
-	cd $(FRONTEND_DIR) && npm test
+	cd $(FRONTEND_DIR) && npm test -- --run
 
 test-frontend-ui: ## Run frontend tests with UI
 	@echo "$(BLUE)Running frontend tests with UI...$(NC)"
@@ -148,7 +148,7 @@ lint: lint-backend lint-frontend ## Run all linting
 
 lint-backend: ## Lint backend code
 	@echo "$(BLUE)Linting backend code...$(NC)"
-	cd $(BACKEND_DIR) && ./mvnw spotless:check
+	cd $(BACKEND_DIR) && mvn spotless:check
 
 lint-frontend: ## Lint frontend code
 	@echo "$(BLUE)Linting frontend code...$(NC)"
@@ -162,7 +162,7 @@ format: format-backend format-frontend ## Format all code
 
 format-backend: ## Format backend code
 	@echo "$(BLUE)Formatting backend code...$(NC)"
-	cd $(BACKEND_DIR) && ./mvnw spotless:apply
+	cd $(BACKEND_DIR) && mvn spotless:apply
 
 format-frontend: ## Format frontend code
 	@echo "$(BLUE)Formatting frontend code...$(NC)"
@@ -186,7 +186,7 @@ clean-docker: ## Clean Docker resources
 
 clean-local: ## Clean local build artifacts
 	@echo "$(BLUE)Cleaning local build artifacts...$(NC)"
-	cd $(BACKEND_DIR) && ./mvnw clean
+	cd $(BACKEND_DIR) && mvn clean
 	cd $(FRONTEND_DIR) && rm -rf node_modules dist
 
 prune: ## Remove unused Docker resources
@@ -340,7 +340,7 @@ update-deps: ## Update all dependencies
 	@echo "$(YELLOW)Updating frontend dependencies...$(NC)"
 	cd $(FRONTEND_DIR) && npm update
 	@echo "$(YELLOW)Updating backend dependencies...$(NC)"
-	cd $(BACKEND_DIR) && ./mvnw versions:use-latest-versions -DallowSnapshots=false
+	cd $(BACKEND_DIR) && mvn versions:use-latest-versions -DallowSnapshots=false
 	@echo "$(GREEN)Dependencies updated!$(NC)"
 
 security-scan: ## Run security scans
@@ -348,7 +348,7 @@ security-scan: ## Run security scans
 	@echo "$(YELLOW)Scanning frontend dependencies...$(NC)"
 	cd $(FRONTEND_DIR) && npm audit || echo "$(YELLOW)No vulnerabilities found or audit not available$(NC)"
 	@echo "$(YELLOW)Scanning backend dependencies...$(NC)"
-	cd $(BACKEND_DIR) && ./mvnw dependency:check || echo "$(YELLOW)Maven dependency check not available$(NC)"
+	cd $(BACKEND_DIR) && mvn dependency:check || echo "$(YELLOW)Maven dependency check not available$(NC)"
 	@echo "$(GREEN)Security scan complete!$(NC)"
 
 performance-test: ## Run performance tests

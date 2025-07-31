@@ -50,24 +50,27 @@ frontend/
 ## Local Development
 
 ### Prerequisites
+
 - Node.js 18 or higher
 - npm or yarn
 
 ### Setup
 
 1. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 2. **Start development server**
+
    ```bash
    npm run dev
    ```
 
 3. **Access the application**
    - Frontend: http://localhost:3000
-   - API proxy: http://localhost:3000/api/* (forwards to backend)
+   - API proxy: http://localhost:3000/api/\* (forwards to backend)
 
 ### Development Scripts
 
@@ -98,12 +101,14 @@ VITE_API_URL=http://localhost:8080
 ## Components
 
 ### InputForm
+
 - Text input with character limit (1000 chars)
 - Real-time validation
 - Loading state during submission
 - Error display
 
 ### ResponseDisplay
+
 - Shows API responses
 - Error state handling
 - Loading indicators
@@ -112,6 +117,7 @@ VITE_API_URL=http://localhost:8080
 ## Styling
 
 The application uses:
+
 - **CSS Modules** for component-scoped styles
 - **Responsive design** with mobile-first approach
 - **Modern UI** with gradients and smooth animations
@@ -120,26 +126,31 @@ The application uses:
 ## Docker
 
 ### Building the Image
+
 ```bash
 docker build -t echo-bridge-frontend .
 ```
 
 ### Running with Docker
+
 ```bash
 docker run -p 80:80 echo-bridge-frontend
 ```
 
 ### Docker Compose
+
 The frontend is configured to work with Docker Compose. See the root `docker-compose.yml` file for the complete setup.
 
 ## Production Build
 
 ### Build Process
+
 1. **Install dependencies**: `npm ci --only=production`
 2. **Build application**: `npm run build`
 3. **Serve with nginx**: Optimized static file serving
 
 ### Build Output
+
 - **Location**: `dist/` directory
 - **Optimization**: Minified and optimized for production
 - **Source maps**: Available for debugging
@@ -147,11 +158,13 @@ The frontend is configured to work with Docker Compose. See the root `docker-com
 ## Configuration
 
 ### Vite Configuration (`vite.config.ts`)
+
 - **Port**: 3000 (development)
 - **Proxy**: API calls forwarded to backend
 - **Build**: Optimized production output
 
 ### Nginx Configuration (`nginx.conf`)
+
 - **Port**: 80 (production)
 - **Gzip compression**: Enabled
 - **Security headers**: Configured
@@ -161,6 +174,7 @@ The frontend is configured to work with Docker Compose. See the root `docker-com
 ## Testing
 
 ### Manual Testing
+
 1. Start the backend server
 2. Start the frontend development server
 3. Test form submission and response display
@@ -168,6 +182,7 @@ The frontend is configured to work with Docker Compose. See the root `docker-com
 5. Test responsive design on different screen sizes
 
 ### Automated Testing
+
 ```bash
 # Run tests (when implemented)
 npm test

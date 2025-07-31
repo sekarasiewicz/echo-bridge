@@ -1,1 +1,5 @@
+/Users/sebastiankarasiewicz/Projects/echo-bridge/backend/src/main/java/com/echobridge/backend/dto/EchoRequest.java
 /Users/sebastiankarasiewicz/Projects/echo-bridge/backend/src/main/java/com/echobridge/backend/EchoBridgeApplication.java
+/Users/sebastiankarasiewicz/Projects/echo-bridge/backend/src/main/java/com/echobridge/backend/dto/EchoResponse.java
+/Users/sebastiankarasiewicz/Projects/echo-bridge/backend/src/main/java/com/echobridge/backend/exception/GlobalExceptionHandler.java
+/Users/sebastiankarasiewicz/Projects/echo-bridge/backend/src/main/java/com/echobridge/backend/controller/EchoController.java

@@ -131,8 +131,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive Design */
@@ -142,15 +146,15 @@
     padding: 16px;
     min-height: 180px;
   }
-  
+
   .response-container h3 {
     font-size: 18px;
   }
-  
+
   .response-content {
     padding: 16px;
   }
-  
+
   .response-text {
     font-size: 15px;
   }
@@ -162,22 +166,22 @@
     padding: 12px;
     min-height: 160px;
   }
-  
+
   .error-container h3,
   .response-container h3 {
     font-size: 16px;
   }
-  
+
   .response-content {
     padding: 12px;
   }
-  
+
   .response-text {
     font-size: 14px;
   }
-  
+
   .loading-container p,
   .empty-container p {
     font-size: 14px;
   }
-} 
+}

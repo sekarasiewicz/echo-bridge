@@ -59,13 +59,11 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit, isLoading }) => {
           disabled={isLoading}
         />
         <div className="input-footer">
-          <span className="char-count">
-            {message.length}/1000 characters
-          </span>
+          <span className="char-count">{message.length}/1000 characters</span>
           {error && <span className="error-message">{error}</span>}
         </div>
       </div>
-      
+
       <button
         type="submit"
         className={`submit-button ${isLoading ? 'loading' : ''}`}
@@ -84,4 +82,4 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit, isLoading }) => {
   );
 };
 
-export default InputForm; 
+export default InputForm;

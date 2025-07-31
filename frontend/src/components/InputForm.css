@@ -25,7 +25,9 @@
   font-size: 16px;
   font-family: inherit;
   line-height: 1.5;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   resize: vertical;
   min-height: 100px;
 }
@@ -74,7 +76,9 @@
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,8 +115,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive Design */
@@ -120,11 +128,11 @@
   .input-form {
     padding: 16px;
   }
-  
+
   .form-input {
     font-size: 16px; /* Prevents zoom on iOS */
   }
-  
+
   .submit-button {
     font-size: 16px; /* Prevents zoom on iOS */
   }
@@ -134,14 +142,14 @@
   .input-form {
     padding: 12px;
   }
-  
+
   .form-label {
     font-size: 14px;
   }
-  
+
   .input-footer {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
   }
-} 
+}
