@@ -34,9 +34,6 @@ services:
     volumes:
       - ./frontend/src:/app/src
       - ./frontend/public:/app/public
-      - ./frontend/package.json:/app/package.json
-      - ./frontend/vite.config.ts:/app/vite.config.ts
-      - frontend-node-modules:/app/node_modules
     command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
     restart: unless-stopped
 
@@ -47,6 +44,4 @@ networks:
 
 volumes:
   backend-dev-logs:
-    driver: local
-  frontend-node-modules:
     driver: local 
