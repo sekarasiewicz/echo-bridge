@@ -25,7 +25,7 @@ echo-bridge/
 │   │   └── App.tsx          # Main application
 │   ├── Dockerfile           # Production build
 │   ├── Dockerfile.dev       # Development build
-│   └── nginx.conf           # Nginx configuration
+│   └── Caddyfile            # Caddy configuration
 ├── backend/                  # Java Spring Boot application
 │   ├── src/
 │   │   ├── main/java/
@@ -56,7 +56,7 @@ echo-bridge/
 ### Infrastructure
 - **Docker**: Containerization
 - **Docker Compose**: Service orchestration
-- **Nginx**: Web server for frontend
+- **Caddy**: Web server for frontend
 - **Maven**: Java build tool
 
 ## 📋 Prerequisites
@@ -141,7 +141,7 @@ npm run dev
 
 #### Production (`docker-compose.yml`)
 - Optimized builds
-- Nginx serving frontend
+- Caddy serving frontend
 - Health checks enabled
 - Production logging
 
@@ -323,8 +323,8 @@ docker-compose logs -f frontend
    - Verify network connectivity
 
 4. **Frontend Not Loading**
-   - Check nginx logs: `docker-compose logs frontend`
-   - Verify build output: `docker-compose exec frontend ls /usr/share/nginx/html`
+   - Check Caddy logs: `docker-compose logs frontend`
+   - Verify build output: `docker-compose exec frontend ls /usr/share/caddy`
 
 ### Development Tips
 
