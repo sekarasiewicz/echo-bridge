@@ -1,5 +1,5 @@
 import React from 'react';
-import { EchoResponse, ApiError } from '../types/api';
+import type { EchoResponse, ApiError } from '../types/api';
 import './ResponseDisplay.css';
 
 interface ResponseDisplayProps {

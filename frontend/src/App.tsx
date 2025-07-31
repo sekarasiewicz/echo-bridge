@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import InputForm from './components/InputForm';
 import ResponseDisplay from './components/ResponseDisplay';
 import { echoService } from './services/api';
-import { EchoResponse, ApiError } from './types/api';
+import type { EchoResponse, ApiError } from './types/api';
 import './App.css';
 
 function App() {

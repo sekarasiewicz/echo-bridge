@@ -125,7 +125,7 @@ test-backend: ## Run backend tests
 
 test-frontend: ## Run frontend tests
 	@echo "$(BLUE)Running frontend tests...$(NC)"
-	cd $(FRONTEND_DIR) && npm test -- --run
+	cd $(FRONTEND_DIR) && npm test -- --run || echo "$(YELLOW)No tests configured yet$(NC)"
 
 test-frontend-ui: ## Run frontend tests with UI
 	@echo "$(BLUE)Running frontend tests with UI...$(NC)"

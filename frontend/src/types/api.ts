@@ -1,3 +1,5 @@
+// API Types for Echo Bridge Application
+
 export interface EchoRequest {
   message: string;
 }
