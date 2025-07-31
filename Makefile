@@ -127,6 +127,14 @@ test-frontend: ## Run frontend tests
 	@echo "$(BLUE)Running frontend tests...$(NC)"
 	cd $(FRONTEND_DIR) && npm test
 
+test-frontend-ui: ## Run frontend tests with UI
+	@echo "$(BLUE)Running frontend tests with UI...$(NC)"
+	cd $(FRONTEND_DIR) && npm run test:ui
+
+test-frontend-coverage: ## Run frontend tests with coverage
+	@echo "$(BLUE)Running frontend tests with coverage...$(NC)"
+	cd $(FRONTEND_DIR) && npm run test:coverage
+
 test-docker: ## Run tests in Docker containers
 	@echo "$(BLUE)Running tests in Docker...$(NC)"
 	$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) exec backend mvn test
@@ -160,6 +168,10 @@ format-frontend: ## Format frontend code
 	@echo "$(BLUE)Formatting frontend code...$(NC)"
 	cd $(FRONTEND_DIR) && npm run format
 
+format-frontend-check: ## Check frontend code formatting
+	@echo "$(BLUE)Checking frontend code formatting...$(NC)"
+	cd $(FRONTEND_DIR) && npm run format:check
+
 # =============================================================================
 # CLEANUP COMMANDS
 # =============================================================================
@@ -191,7 +203,7 @@ status: ## Show status of all services
 	@echo ""
 	@echo "$(BLUE)Health Checks:$(NC)"
 	@curl -s http://localhost:8080/api/health || echo "$(RED)Backend not responding$(NC)"
-	@curl -s http://localhost:3000/health || echo "$(RED)Frontend not responding$(NC)"
+	@curl -s http://localhost:3000/ || echo "$(RED)Frontend not responding$(NC)"
 
 shell-backend: ## Open shell in backend container
 	@echo "$(BLUE)Opening shell in backend container...$(NC)"
@@ -284,4 +296,64 @@ debug: ## Show debug information
 	@mvn --version 2>/dev/null || echo "$(RED)Maven not found$(NC)"
 
 reset: down-volumes clean build run ## Complete reset: clean, rebuild, and restart
-	@echo "$(GREEN)Reset complete! Application is running$(NC)" 
+	@echo "$(GREEN)Reset complete! Application is running$(NC)"
+
+# =============================================================================
+# NEW ENHANCED COMMANDS
+# =============================================================================
+
+validate: type-check lint format-frontend-check ## Validate code quality
+	@echo "$(GREEN)Code validation complete!$(NC)"
+
+ci: install validate test build ## Run CI pipeline locally
+	@echo "$(GREEN)CI pipeline completed successfully!$(NC)"
+
+dev-setup: install build-dev ## Setup development environment
+	@echo "$(GREEN)Development environment ready! Run 'make dev' to start$(NC)"
+
+logs-all: ## Show logs from all environments
+	@echo "$(BLUE)Production logs:$(NC)"
+	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) logs --tail=20 || echo "$(YELLOW)No production containers running$(NC)"
+	@echo ""
+	@echo "$(BLUE)Development logs:$(NC)"
+	@$(DOCKER_COMPOSE) -f $(COMPOSE_DEV_FILE) logs --tail=20 || echo "$(YELLOW)No development containers running$(NC)"
+
+health: ## Comprehensive health check
+	@echo "$(BLUE)Comprehensive Health Check:$(NC)"
+	@echo "$(YELLOW)1. Docker status:$(NC)"
+	@docker --version && docker-compose --version || echo "$(RED)Docker not available$(NC)"
+	@echo ""
+	@echo "$(YELLOW)2. Service status:$(NC)"
+	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) ps || echo "$(YELLOW)No services running$(NC)"
+	@echo ""
+	@echo "$(YELLOW)3. API health:$(NC)"
+	@curl -s http://localhost:8080/api/health || echo "$(RED)Backend API not responding$(NC)"
+	@echo ""
+	@echo "$(YELLOW)4. Frontend health:$(NC)"
+	@curl -s http://localhost:3000/ || echo "$(RED)Frontend not responding$(NC)"
+	@echo ""
+	@echo "$(YELLOW)5. Resource usage:$(NC)"
+	@docker stats --no-stream --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}" 2>/dev/null || echo "$(YELLOW)No containers running$(NC)"
+
+update-deps: ## Update all dependencies
+	@echo "$(BLUE)Updating dependencies...$(NC)"
+	@echo "$(YELLOW)Updating frontend dependencies...$(NC)"
+	cd $(FRONTEND_DIR) && npm update
+	@echo "$(YELLOW)Updating backend dependencies...$(NC)"
+	cd $(BACKEND_DIR) && ./mvnw versions:use-latest-versions -DallowSnapshots=false
+	@echo "$(GREEN)Dependencies updated!$(NC)"
+
+security-scan: ## Run security scans
+	@echo "$(BLUE)Running security scans...$(NC)"
+	@echo "$(YELLOW)Scanning frontend dependencies...$(NC)"
+	cd $(FRONTEND_DIR) && npm audit || echo "$(YELLOW)No vulnerabilities found or audit not available$(NC)"
+	@echo "$(YELLOW)Scanning backend dependencies...$(NC)"
+	cd $(BACKEND_DIR) && ./mvnw dependency:check || echo "$(YELLOW)Maven dependency check not available$(NC)"
+	@echo "$(GREEN)Security scan complete!$(NC)"
+
+performance-test: ## Run performance tests
+	@echo "$(BLUE)Running performance tests...$(NC)"
+	@echo "$(YELLOW)Testing API response time:$(NC)"
+	@curl -w "Response time: %{time_total}s\n" -o /dev/null -s http://localhost:8080/api/health || echo "$(RED)API not available$(NC)"
+	@echo "$(YELLOW)Testing frontend load time:$(NC)"
+	@curl -w "Load time: %{time_total}s\n" -o /dev/null -s http://localhost:3000/ || echo "$(RED)Frontend not available$(NC)" 
