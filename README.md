@@ -77,7 +77,7 @@ The easiest way to manage the application is using the provided Makefile:
 make help
 
 # Start the application in production mode
-make run
+make prod
 
 # Start the application in development mode (with hot reload)
 make dev
@@ -85,8 +85,11 @@ make dev
 # Stop the application
 make stop
 
-# View logs
-make logs
+# Clean up all containers and images
+make clean
+
+# Run all tests
+make test
 ```
 
 ### Option 2: Docker Compose (Manual)
@@ -197,65 +200,32 @@ The Makefile provides convenient shortcuts for common operations:
 
 ### Application Management
 ```bash
-make run          # Start in production mode
+make help         # Show all available commands
+make prod         # Start in production mode
 make dev          # Start in development mode
 make stop         # Stop all services
-make restart      # Restart all services
-make logs         # View all logs
-make logs-backend # View backend logs only
-make logs-frontend # View frontend logs only
+make clean        # Stop and clean up all containers
 ```
 
 ### Development
 ```bash
-make install      # Install all dependencies
-make test         # Run all tests
-make lint         # Run all linting
-make format       # Format all code
-make type-check   # TypeScript type checking
-```
-
-### Docker Management
-```bash
-make build        # Build all images
-make build-dev    # Build development images
-make clean        # Clean everything
-make prune        # Remove unused Docker resources
-make status       # Show service status
-```
-
-### Utilities
-```bash
-make api-test     # Test API endpoints
-make monitor      # Monitor resources
-make debug        # Show system information
-make reset        # Complete reset (clean, rebuild, restart)
+make test         # Run all tests (backend and frontend)
 ```
 
 ## 🐳 Docker Commands (Manual)
 
-If you prefer to use Docker commands directly:
+If you prefer to use Docker commands directly instead of the Makefile:
 
-### Build Images
+### Build and Run
 ```bash
-# Build all services
-docker compose build
+# Production mode
+docker compose up --build
 
-# Build specific service
-docker compose build backend
-docker compose build frontend
-```
-
-### Run Services
-```bash
-# Start all services
-docker compose up
+# Development mode (with hot reload)
+docker compose -f docker-compose.dev.yml up --build
 
 # Start in background
-docker compose up -d
-
-# Start specific service
-docker compose up backend
+docker compose up --build -d
 ```
 
 ### View Logs
@@ -284,16 +254,16 @@ docker compose down -v
 
 ### Health Checks
 - Backend: http://localhost:8080/api/health
-- Frontend: http://localhost:3000/health
+- Frontend: http://localhost/health
 
 ### Logs
 ```bash
 # View real-time logs
-docker-compose logs -f
+docker compose logs -f
 
 # View specific service logs
-docker-compose logs -f backend
-docker-compose logs -f frontend
+docker compose logs -f backend
+docker compose logs -f frontend
 ```
 
 ## 🚨 Troubleshooting
@@ -303,7 +273,7 @@ docker-compose logs -f frontend
 1. **Port Conflicts**
    ```bash
    # Check what's using the ports
-   lsof -i :3000
+   lsof -i :80
    lsof -i :8080
    
    # Change ports in docker-compose.yml if needed
@@ -312,33 +282,32 @@ docker-compose logs -f frontend
 2. **Build Failures**
    ```bash
    # Clean and rebuild
-   docker-compose down
-   docker system prune -f
-   docker-compose up --build
+   make clean
+   make prod
    ```
 
 3. **API Connection Issues**
-   - Ensure backend is running: `docker-compose logs backend`
+   - Ensure backend is running: `docker compose logs backend`
    - Check CORS configuration
    - Verify network connectivity
 
 4. **Frontend Not Loading**
-   - Check Caddy logs: `docker-compose logs frontend`
-   - Verify build output: `docker-compose exec frontend ls /usr/share/caddy`
+   - Check Caddy logs: `docker compose logs frontend`
+   - Verify build output: `docker compose exec frontend ls /usr/share/caddy`
 
 ### Development Tips
 
 1. **Hot Reload Issues**
    ```bash
-   # Use development compose file
-   docker-compose -f docker-compose.dev.yml up --build
+   # Use development mode
+   make dev
    ```
 
-2. **Database Issues** (if added later)
+2. **Complete Reset**
    ```bash
-   # Reset volumes
-   docker-compose down -v
-   docker-compose up --build
+   # Clean everything and restart
+   make clean
+   make prod
    ```
 
 ## 📚 Documentation
